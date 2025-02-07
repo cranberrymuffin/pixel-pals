@@ -55,20 +55,4 @@ extension UIApplication {
             print("❌ Failed to instantiate HomeViewController from Storyboard")
         }
     }
-    
-    static func transitionToLogin() {
-        guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-              let window = scene.windows.first else {
-            print("❌ Failed to get window")
-            return
-        }
-
-        // Load the MainViewController from Storyboard
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        if let mainVC = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController {
-            displayView(mainVC: mainVC)
-        } else {
-            print("❌ Failed to instantiate LoginViewController from Storyboard")
-        }
-    }
 }

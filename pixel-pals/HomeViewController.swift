@@ -1,29 +1,16 @@
 // HomeViewController.swift
 import UIKit
 import MultipeerConnectivity
-import FirebaseAuth
 
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    @IBOutlet weak var hello: UILabel!
     @IBOutlet weak var peersTableView: UITableView!
     var isHost = true
     let multipeerManager = MultipeerManager.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if !AuthManager.shared.isLoggedIn() {
-            UIApplication.transitionToLogin()
-        }
-        Auth.auth().addStateDidChangeListener { auth, user in
-            if user == nil || user?.isEmailVerified == false {
-                UIApplication.transitionToLogin()
-            }
-        }
-        
-        hello.text = AuthManager.shared.loggedInUser()
-        
+                
         peersTableView.delegate = self
         peersTableView.dataSource = self
 
@@ -56,7 +43,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     @IBAction func signOut(_ sender: Any) {
-        AuthManager.shared.signOut()
     }
 
     func showInvitationAlert(from peerID: MCPeerID, responseHandler: @escaping (Bool) -> Void) {
