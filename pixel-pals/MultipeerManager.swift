@@ -2,7 +2,7 @@ import MultipeerConnectivity
 
 class MultipeerManager: NSObject, MCSessionDelegate, MCNearbyServiceAdvertiserDelegate, MCNearbyServiceBrowserDelegate {
     
-    static let shared = MultipeerManager()  // Singleton for easy access
+    static var shared: MultipeerManager?  // The singleton is now optional
 
     var peerID: MCPeerID
     var session: MCSession
@@ -13,8 +13,9 @@ class MultipeerManager: NSObject, MCSessionDelegate, MCNearbyServiceAdvertiserDe
     var onPeerUpdate: (() -> Void)? // Callback to update UI when peers change
     var onInvitationReceived: ((MCPeerID, @escaping (Bool) -> Void) -> Void)?
 
-    override init() {
-        self.peerID = MCPeerID(displayName: UIDevice.current.name)
+    // Updated initializer to accept a custom display name
+    init(displayName: String) {
+        self.peerID = MCPeerID(displayName: displayName)
         self.session = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .required)
         self.advertiser = MCNearbyServiceAdvertiser(peer: peerID, discoveryInfo: nil, serviceType: "vchat")
         self.browser = MCNearbyServiceBrowser(peer: peerID, serviceType: "vchat")
@@ -25,6 +26,12 @@ class MultipeerManager: NSObject, MCSessionDelegate, MCNearbyServiceAdvertiserDe
         self.advertiser.delegate = self
         self.browser.delegate = self
     }
+
+    // A static method to initialize the shared instance
+    static func initializeSharedInstance(with displayName: String) {
+        shared = MultipeerManager(displayName: displayName)
+    }
+    
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
             switch state {
             case .connected:

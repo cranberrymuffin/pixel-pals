@@ -15,17 +15,17 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         peersTableView.dataSource = self
 
         // Start Multipeer Connectivity
-        multipeerManager.onPeerUpdate = { [weak self] in
+        multipeerManager?.onPeerUpdate = { [weak self] in
             DispatchQueue.main.async {
                 self?.peersTableView.reloadData()
             }
         }
         
-        multipeerManager.onInvitationReceived = { [weak self] peerID, responseHandler in
+        multipeerManager?.onInvitationReceived = { [weak self] peerID, responseHandler in
             self?.showInvitationAlert(from: peerID, responseHandler: responseHandler)
         }
         
-        multipeerManager.start()
+        multipeerManager?.start()
         NotificationCenter.default.addObserver(self, selector: #selector(peerConnected(_:)), name: .peerConnected, object: nil)
 
     }
@@ -59,18 +59,24 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     // MARK: - UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return multipeerManager.foundPeers.count
+        if let count = multipeerManager?.foundPeers.count {
+            return count
+        }
+        return 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PeerCell", for: indexPath) as! PeerCell
-        let peer = multipeerManager.foundPeers[indexPath.row]
-        cell.peerNameLabel.text = peer.displayName
-        
-        // Setup join button action for each cell
-        cell.joinButtonAction = { [weak self] in
-            self?.multipeerManager.invitePeer(peer)
+        if let multipeerManager = self.multipeerManager {
+            let peer = multipeerManager.foundPeers[indexPath.row]
+            cell.peerNameLabel.text = peer.displayName
+            
+            // Setup join button action for each cell
+            cell.joinButtonAction = { [weak self] in
+                multipeerManager.invitePeer(peer)
+            }
         }
+
         
         return cell
     }
