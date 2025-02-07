@@ -88,10 +88,4 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         return cell
     }
-    
-    @IBAction func calibrate(_ sender: Any) {
-        let screenSize = UIScreen.main.bounds.size
-        multipeerManager.sendData("Screen width: \(screenSize.width), height: \(screenSize.height)")
-        UIApplication.transitionToCalibrationScreen(isHost: self.isHost)
-    }
 }
