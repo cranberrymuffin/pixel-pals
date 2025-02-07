@@ -90,24 +90,21 @@ class MultipeerManager: NSObject, MCSessionDelegate, MCNearbyServiceAdvertiserDe
     }
     
     // MARK: - MCNearbyServiceBrowserDelegate
-    func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String: String]?) {
-        DispatchQueue.main.async {
-            // Only add the peer to foundPeers if it's not already in the list and not connected
-            if !self.session.connectedPeers.contains(peerID), !self.foundPeers.contains(peerID) {
-                self.foundPeers.append(peerID)
-                self.onPeerUpdate?()  // Update UI after addition
+        
+        func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
+            if !foundPeers.contains(peerID) {
+                foundPeers.append(peerID)
+                onPeerUpdate?()
             }
         }
-    }
+        
+        func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
+            if let index = foundPeers.firstIndex(of: peerID) {
+                foundPeers.remove(at: index)
+                onPeerUpdate?() // Notify UI to refresh
+            }
+        }
 
-    func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
-        DispatchQueue.main.async {
-            if let index = self.foundPeers.firstIndex(of: peerID) {
-                self.foundPeers.remove(at: index)
-                self.onPeerUpdate?()  // Update UI after removal
-            }
-        }
-    }
 
     // Additional session delegate methods...
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {}

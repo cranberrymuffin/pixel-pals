@@ -8,6 +8,7 @@
 import UIKit
 
 class CalibrationViewController: UIViewController {
+    let multipeerManager = MultipeerManager.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,7 +18,8 @@ class CalibrationViewController: UIViewController {
     
     
     @IBAction func disconnect(_ sender: Any) {
-        
+        multipeerManager?.start()
+        UIApplication.transitionToMainApp()
     }
     
     
