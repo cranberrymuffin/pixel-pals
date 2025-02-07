@@ -16,6 +16,9 @@ class CalibrationViewController: UIViewController {
     }
     
     
+    @IBAction func disconnect(_ sender: Any) {
+        
+    }
     
     
 

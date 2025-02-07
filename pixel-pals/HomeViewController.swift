@@ -67,27 +67,29 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.present(alert, animated: true)
     }
 
-    // MARK: - UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let count = multipeerManager?.foundPeers.count {
-            return count
-        }
-        return 0
+        // Filter foundPeers to exclude peers that are already connected
+        let peersWithZeroConnections = multipeerManager?.foundPeers.filter { peer in
+            // A peer with 0 connections is one that is not in the connectedPeers array
+            return !multipeerManager!.session.connectedPeers.contains(peer)
+        } ?? []
+        return peersWithZeroConnections.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PeerCell", for: indexPath) as! PeerCell
-        if let multipeerManager = self.multipeerManager {
-            let peer = multipeerManager.foundPeers[indexPath.row]
-            cell.peerNameLabel.text = peer.displayName
-            
-            // Setup join button action for each cell
-            cell.joinButtonAction = { [weak self] in
-                multipeerManager.invitePeer(peer)
-            }
+        let peersWithZeroConnections = multipeerManager?.foundPeers.filter { peer in
+            // Exclude connected peers from the list
+            return !multipeerManager!.session.connectedPeers.contains(peer)
+        } ?? []
+        let peer = peersWithZeroConnections[indexPath.row]
+        cell.peerNameLabel.text = peer.displayName
+
+        // Setup join button action for each cell
+        cell.joinButtonAction = { [weak self] in
+            self?.multipeerManager?.invitePeer(peer)
         }
 
-        
         return cell
     }
 }
