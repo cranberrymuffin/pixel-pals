@@ -25,7 +25,20 @@ class MultipeerManager: NSObject, MCSessionDelegate, MCNearbyServiceAdvertiserDe
         self.advertiser.delegate = self
         self.browser.delegate = self
     }
-    
+    func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
+            switch state {
+            case .connected:
+                print("\(peerID.displayName) connected.")
+                // Notify HomeViewController that the peer is connected
+                NotificationCenter.default.post(name: .peerConnected, object: peerID)
+            case .connecting:
+                print("\(peerID.displayName) is connecting...")
+            case .notConnected:
+                print("\(peerID.displayName) disconnected.")
+            @unknown default:
+                print("Unknown state for \(peerID.displayName).")
+            }
+        }
     func start() {
         advertiser.startAdvertisingPeer()
         browser.startBrowsingForPeers()
@@ -82,11 +95,6 @@ class MultipeerManager: NSObject, MCSessionDelegate, MCNearbyServiceAdvertiserDe
             foundPeers.remove(at: index)
             onPeerUpdate?()
         }
-    }
-    
-    // MARK: - MCSessionDelegate (Only required methods)
-    func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
-        print("\(peerID.displayName) is now \(state)")
     }
 
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {}

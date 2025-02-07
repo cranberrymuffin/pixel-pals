@@ -39,8 +39,22 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         multipeerManager.start()
+        NotificationCenter.default.addObserver(self, selector: #selector(peerConnected(_:)), name: .peerConnected, object: nil)
+
     }
 
+    
+    @objc func peerConnected(_ notification: Notification) {
+        guard let peerID = notification.object as? MCPeerID else { return }
+        DispatchQueue.main.async {
+            
+            // Once a peer is connected, show the calibration screen
+            print("\(peerID.displayName) connected, transitioning to calibration screen.")
+            
+            // Transition to the calibration screen
+            UIApplication.transitionToCalibrationScreen(isHost: self.isHost)
+        }
+    }
     @IBAction func signOut(_ sender: Any) {
         AuthManager.shared.signOut()
     }
