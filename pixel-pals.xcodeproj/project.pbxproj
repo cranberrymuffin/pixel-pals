@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		B98A91372D53EAEB004932A9 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = B98A91362D53EAEB004932A9 /* FirebaseAuth */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		B98A910B2D53E943004932A9 /* pixel-pals.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "pixel-pals.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B98A91372D53EAEB004932A9 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +83,7 @@
 			);
 			name = "pixel-pals";
 			packageProductDependencies = (
+				B98A91362D53EAEB004932A9 /* FirebaseAuth */,
 			);
 			productName = "pixel-pals";
 			productReference = B98A910B2D53E943004932A9 /* pixel-pals.app */;
@@ -107,6 +113,9 @@
 			);
 			mainGroup = B98A91022D53E943004932A9;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				B98A91352D53EAEB004932A9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B98A910C2D53E943004932A9 /* Products */;
 			projectDirPath = "";
@@ -335,6 +344,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B98A91352D53EAEB004932A9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.8.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B98A91362D53EAEB004932A9 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B98A91352D53EAEB004932A9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B98A91032D53E943004932A9 /* Project object */;
 }

@@ -1,0 +1,60 @@
+*.plist 
+# Xcode
+#
+build/
+DerivedData/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+
+# Xcode 8 and later
+xcuserdata/
+*.xccheckout
+*.moved-aside
+*.xcuserstate
+
+# Swift Package Manager
+/.build/
+.swiftpm/
+
+# CocoaPods
+Pods/
+# Uncomment the line below if you want to check in your Podfile.lock
+# Podfile.lock
+
+# Carthage
+Carthage/Build/
+
+# fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+# Bundler
+.bundle/
+
+# Other files
+*.swp
+*~
+.idea/
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# App packaging
+*.app
+
+# Local configuration files
+*.xcconfig
+
+# Generated files
+*.der
+*.pbxproj.user
+
