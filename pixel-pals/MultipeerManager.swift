@@ -11,6 +11,7 @@ class MultipeerManager: NSObject, MCSessionDelegate, MCNearbyServiceAdvertiserDe
     var foundPeers: [MCPeerID] = [] // List of found peers that are not connected
     var onPeerUpdate: (() -> Void)? // Callback to update UI when peers change
     var onInvitationReceived: ((MCPeerID, @escaping (Bool) -> Void) -> Void)?
+    var onDisconnected: (() -> Void)? // Callback for disconnection
 
     init(displayName: String) {
         self.peerID = MCPeerID(displayName: displayName)
@@ -28,6 +29,7 @@ class MultipeerManager: NSObject, MCSessionDelegate, MCNearbyServiceAdvertiserDe
     static func initializeSharedInstance(with displayName: String) {
         shared = MultipeerManager(displayName: displayName)
     }
+
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
         switch state {
         case .connected:
@@ -37,7 +39,7 @@ class MultipeerManager: NSObject, MCSessionDelegate, MCNearbyServiceAdvertiserDe
         case .connecting:
             print("\(peerID.displayName) is connecting...")
         case .notConnected:
-            print("\(peerID.displayName) disconnected.")
+            NotificationCenter.default.post(name: .peerDisconnected, object: peerID)
         @unknown default:
             print("Unknown state for \(peerID.displayName).")
         }

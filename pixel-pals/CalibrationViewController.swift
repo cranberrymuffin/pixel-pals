@@ -14,14 +14,27 @@ class CalibrationViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        // Listen for disconnection events
+        NotificationCenter.default.addObserver(self, selector: #selector(peerDisconnected(_:)), name: .peerDisconnected, object: nil)
+
     }
     
     
     @IBAction func disconnect(_ sender: Any) {
+        multipeerManager?.disconnectFromAllPeers()
         multipeerManager?.start()
-        UIApplication.transitionToMainApp()
     }
     
+    
+    @objc func peerDisconnected(_ notification: Notification) {
+        DispatchQueue.main.async {
+            
+            // Once a peer is connected, show the calibration screen
+            self.multipeerManager?.start()
+            // Transition to the calibration screen
+            UIApplication.transitionToMainApp()
+        }
+    }
     
 
     /*

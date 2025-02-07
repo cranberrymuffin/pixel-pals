@@ -10,4 +10,6 @@ import Foundation
 
 extension Notification.Name {
     static let peerConnected = Notification.Name("peerConnected")
+    static let peerDisconnected = Notification.Name("peerDisconnected")
+
 }
