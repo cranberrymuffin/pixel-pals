@@ -19,7 +19,6 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="FqC-7P-yuL" kind="show" id="tck-6v-enZ"/>
                         <segue destination="PYo-so-9nU" kind="show" id="kXz-Js-kxG"/>
                     </connections>
                 </navigationController>
@@ -124,6 +123,7 @@
                                 <connections>
                                     <action selector="disconnectFromParty:" destination="FqC-7P-yuL" eventType="touchUpInside" id="miz-0V-qND"/>
                                     <action selector="signOut:" destination="FqC-7P-yuL" eventType="touchUpInside" id="QNN-jo-vhz"/>
+                                    <segue destination="PYo-so-9nU" kind="show" id="Egq-WB-2NH"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -205,6 +205,7 @@
                                 <buttonConfiguration key="configuration" style="plain" title="Enter"/>
                                 <connections>
                                     <action selector="proceedButtonTapped:" destination="PYo-so-9nU" eventType="touchUpInside" id="Ubi-rS-kBe"/>
+                                    <segue destination="FqC-7P-yuL" kind="show" id="Mbw-vi-wma"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -222,6 +223,9 @@
             <point key="canvasLocation" x="2396" y="-1182"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="Egq-WB-2NH"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
