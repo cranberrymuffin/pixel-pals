@@ -27,9 +27,19 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         multipeerManager?.start()
         NotificationCenter.default.addObserver(self, selector: #selector(peerConnected(_:)), name: .peerConnected, object: nil)
-
+        NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterBackground), name: UIApplication.willResignActiveNotification, object: nil)
     }
-
+    // When the app is about to close or go to the background
+    @objc func appWillEnterBackground() {
+        // Disconnect from all peers
+        multipeerManager?.disconnectFromAllPeers()
+    }
+    
+    deinit {
+        // Remove observer to prevent memory leaks
+        NotificationCenter.default.removeObserver(self, name: UIApplication.willResignActiveNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .peerConnected, object: nil)
+    }
     
     @objc func peerConnected(_ notification: Notification) {
         guard let peerID = notification.object as? MCPeerID else { return }

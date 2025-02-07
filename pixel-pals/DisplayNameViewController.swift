@@ -23,7 +23,6 @@ class DisplayNameViewController: UIViewController {
         
         // Initialize MultipeerManager with the custom display name
         MultipeerManager.initializeSharedInstance(with: displayName)
-        print("test`")
         // Transition to the home screen
         UIApplication.transitionToMainApp()
     }

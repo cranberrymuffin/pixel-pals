@@ -54,6 +54,12 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dW2-tg-awH">
+                                <rect key="frame" x="141" y="783" width="111" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Disconnect"/>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="k0C-sx-QeI"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -157,6 +163,12 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fHb-h8-qiP">
+                                <rect key="frame" x="141" y="783" width="111" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Disconnect"/>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Q5H-sN-QEn"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>

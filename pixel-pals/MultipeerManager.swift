@@ -77,6 +77,12 @@ class MultipeerManager: NSObject, MCSessionDelegate, MCNearbyServiceAdvertiserDe
         }
     }
     
+    // Disconnect from all peers by closing the session
+    func disconnectFromAllPeers() {
+        // Close the session to disconnect from all peers
+        session.disconnect()
+        print("Disconnected from all peers.")
+    }
     
     // MARK: - MCNearbyServiceAdvertiserDelegate
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
