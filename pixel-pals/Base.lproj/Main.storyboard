@@ -121,9 +121,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Sign out"/>
                                 <connections>
-                                    <action selector="disconnectFromParty:" destination="FqC-7P-yuL" eventType="touchUpInside" id="miz-0V-qND"/>
-                                    <action selector="signOut:" destination="FqC-7P-yuL" eventType="touchUpInside" id="QNN-jo-vhz"/>
-                                    <segue destination="PYo-so-9nU" kind="show" id="Egq-WB-2NH"/>
+                                    <action selector="signOut:" destination="FqC-7P-yuL" eventType="touchUpInside" id="Gn9-k8-qbF"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -187,7 +185,7 @@
         <!--Display Name View Controller-->
         <scene sceneID="ldz-fH-rR0">
             <objects>
-                <viewController id="PYo-so-9nU" customClass="DisplayNameViewController" customModule="pixel_pals" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DisplayNameViewController" id="PYo-so-9nU" customClass="DisplayNameViewController" customModule="pixel_pals" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="qPx-mc-J3L">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -223,9 +221,6 @@
             <point key="canvasLocation" x="2396" y="-1182"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="Egq-WB-2NH"/>
-    </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

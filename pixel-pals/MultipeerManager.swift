@@ -1,66 +1,40 @@
 import MultipeerConnectivity
-class MultipeerManager: NSObject, MCSessionDelegate, MCNearbyServiceAdvertiserDelegate, MCNearbyServiceBrowserDelegate {
+
+class MultipeerManager: NSObject, MCSessionDelegate {
 
     static var shared: MultipeerManager?
 
     var peerID: MCPeerID
     var session: MCSession
-    var advertiser: MCNearbyServiceAdvertiser
-    var browser: MCNearbyServiceBrowser
-
-    var foundPeers: [MCPeerID] = [] // List of found peers that are not connected
     var onPeerUpdate: (() -> Void)? // Callback to update UI when peers change
-    var onInvitationReceived: ((MCPeerID, @escaping (Bool) -> Void) -> Void)?
-    var onDisconnected: (() -> Void)? // Callback for disconnection
 
     init(displayName: String) {
         self.peerID = MCPeerID(displayName: displayName)
         self.session = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .required)
-        self.advertiser = MCNearbyServiceAdvertiser(peer: peerID, discoveryInfo: nil, serviceType: "vchat")
-        self.browser = MCNearbyServiceBrowser(peer: peerID, serviceType: "vchat")
-        
+
         super.init()
-        
+
         self.session.delegate = self
-        self.advertiser.delegate = self
-        self.browser.delegate = self
     }
 
     static func initializeSharedInstance(with displayName: String) {
         shared = MultipeerManager(displayName: displayName)
     }
 
-    func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
-        switch state {
-        case .connected:
-            print("\(peerID.displayName) connected.")
-            // Notify HomeViewController that the peer is connected
-            NotificationCenter.default.post(name: .peerConnected, object: peerID)
-        case .connecting:
-            print("\(peerID.displayName) is connecting...")
-        case .notConnected:
-            NotificationCenter.default.post(name: .peerDisconnected, object: peerID)
-        @unknown default:
-            print("Unknown state for \(peerID.displayName).")
-        }
+    func start() {
+        // Start session here if needed
+        print("Multipeer Manager started.")
     }
 
-    func start() {
-        advertiser.startAdvertisingPeer()
-        browser.startBrowsingForPeers()
-        print("Started advertising and browsing.")
-    }
-    
     func stop() {
-        advertiser.stopAdvertisingPeer()
-        browser.stopBrowsingForPeers()
-        print("Stopped advertising and browsing.")
+        // Stop session here if needed
+        print("Multipeer Manager stopped.")
     }
     
     func invitePeer(_ peerID: MCPeerID) {
-        browser.invitePeer(peerID, to: session, withContext: nil, timeout: 10)
+        // Invite peer logic
     }
-    
+
     func sendData(_ message: String) {
         guard !session.connectedPeers.isEmpty else {
             print("No connected peers to send data.")
@@ -80,37 +54,37 @@ class MultipeerManager: NSObject, MCSessionDelegate, MCNearbyServiceAdvertiserDe
         print("Disconnected from all peers.")
     }
 
-    // MARK: - MCNearbyServiceAdvertiserDelegate
-    func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
-        onInvitationReceived?(peerID) { accepted in
-            invitationHandler(accepted, self.session)
+    // MARK: - MCSessionDelegate Methods
+    
+    // Required methods for MCSessionDelegate
+    func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
+        switch state {
+        case .connected:
+            print("\(peerID.displayName) connected.")
+            // Notify HomeViewController that the peer is connected
+            NotificationCenter.default.post(name: .peerConnected, object: peerID)
+        case .connecting:
+            print("\(peerID.displayName) is connecting...")
+        case .notConnected:
+            NotificationCenter.default.post(name: .peerDisconnected, object: peerID)
+        @unknown default:
+            print("Unknown state for \(peerID.displayName).")
         }
     }
-    
-    func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didNotStartAdvertisingPeer error: Error) {
-        print("Error starting advertising: \(error.localizedDescription)")
+
+    func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
+        // Handle receiving data from peer
     }
-    
-    // MARK: - MCNearbyServiceBrowserDelegate
-        
-        func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
-            if !foundPeers.contains(peerID) {
-                foundPeers.append(peerID)
-                onPeerUpdate?()
-            }
-        }
-        
-        func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
-            if let index = foundPeers.firstIndex(of: peerID) {
-                foundPeers.remove(at: index)
-                onPeerUpdate?() // Notify UI to refresh
-            }
-        }
 
+    func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {
+        // Handle receiving resource (if any)
+    }
 
-    // Additional session delegate methods...
-    func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {}
-    func session(_ session: MCSession, didStartReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, with progress: Progress) {}
-    func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {}
-    func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {}
+    func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
+        // Handle finished receiving resource (if any)
+    }
+
+    func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {
+        // Handle receiving stream (if any)
+    }
 }
